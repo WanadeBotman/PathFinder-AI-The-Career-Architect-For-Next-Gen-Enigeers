@@ -10,7 +10,7 @@
 ---
 
 ## 🔗 Live Demo
-🚀 **[View the Live Application Here](https://sharkcxode.github.io/pathfinder-ai/)**
+🚀 **[View the Live Application Here](https://wanadebotman.github.io/PathFinder-AI-The-Career-Architect-For-Next-Gen-Enigeers/)**
 
 ---
 
