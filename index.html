@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathFinder AI | The Career Architect</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dark-theme">
+    <div class="glow-overlay"></div>
+    
+    <div class="app-layout">
+        <div class="main-content">
+            <aside class="sidebar">
+                <div class="brand">
+                    <div class="brand-logo"><i class="fa-solid fa-bolt-lightning"></i></div>
+                    <span>PathFinder</span>
+                </div>
+
+                <div class="xp-module">
+                    <div class="xp-info">
+                        <span id="rank-label">ELITE MASTER</span>
+                        <span id="level-label">Lvl. 01</span>
+                    </div>
+                    <div class="xp-track"><div id="xp-fill"></div></div>
+                </div>
+
+                <nav class="nav-menu">
+                    <button onclick="navigate('planner')" class="nav-item active" id="nav-planner">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Planner</span>
+                    </button>
+                    <button onclick="navigate('assessment')" class="nav-item" id="nav-assessment">
+                        <i class="fa-solid fa-brain"></i> <span>Assessment</span>
+                    </button>
+                    <button onclick="navigate('roadmap')" class="nav-item" id="nav-roadmap">
+                        <i class="fa-solid fa-diagram-project"></i> <span>Roadmap</span>
+                    </button>
+                    <button onclick="navigate('progress')" class="nav-item" id="nav-progress">
+                        <i class="fa-solid fa-chart-line"></i> <span>Progress</span>
+                    </button>
+                    <button onclick="navigate('nexus')" class="nav-item" id="nav-nexus">
+                        <i class="fa-solid fa-clapperboard"></i> <span>Nexus</span>
+                    </button>
+                </nav>
+
+                <button class="theme-switch" onclick="toggleTheme()">
+                    <i class="fa-solid fa-circle-half-stroke"></i> Appearance
+                </button>
+            </aside>
+
+            <main class="surface">
+                <section id="planner" class="view">
+                    <div class="hero">
+                        <h1 class="text-gradient">Craft Your Future.</h1>
+                        <p class="subtitle">AI-driven pathfinding for the next generation of engineers.</p>
+                    </div>
+
+                    <div class="bento-grid">
+                        <div class="card p-xl">
+                            <div class="input-stack">
+                                <div class="input-group">
+                                    <label>Target Domain</label>
+                                    <select id="career-choice">
+                                        <option value="frontend">Frontend Architecture</option>
+                                        <option value="backend">System Engineering</option>
+                                        <option value="security">Cyber Defense</option>
+                                        <option value="data">AI / Machine Learning</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Expertise Tier</label>
+                                    <select id="level-choice">
+                                        <option value="beginner">Entry Level</option>
+                                        <option value="intermediate">Mid-Level</option>
+                                        <option value="advanced">Senior Architect</option>
+                                    </select>
+                                </div>
+                                <button class="btn-primary" onclick="generatePath()">Unveil My Path</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="assessment" class="view hidden">
+                    <div class="hero">
+                        <h1 class="text-gradient">Discover Your Path.</h1>
+                        <p class="subtitle">Take our quick assessment to find the perfect career domain for you.</p>
+                    </div>
+
+                    <div class="bento-grid">
+                        <div class="card p-xl">
+                            <div id="quiz-container">
+                                <div id="quiz-question">
+                                    <h3>What interests you most?</h3>
+                                    <div class="quiz-options">
+                                        <button class="quiz-option" data-value="frontend">Building beautiful user interfaces</button>
+                                        <button class="quiz-option" data-value="backend">Designing robust server systems</button>
+                                        <button class="quiz-option" data-value="security">Protecting systems from threats</button>
+                                        <button class="quiz-option" data-value="data">Analyzing data and building AI models</button>
+                                    </div>
+                                </div>
+                                <div id="quiz-result" style="display: none;">
+                                    <h3>Your Recommended Path:</h3>
+                                    <p id="recommended-path"></p>
+                                    <button class="btn-primary" onclick="startRecommendedPath()">Start This Path</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="roadmap" class="view hidden">
+                    <div class="view-header">
+                        <h2>Strategic Roadmap</h2>
+                        <div class="share-buttons">
+                            <button class="share-btn" onclick="shareRoadmap('twitter')"><i class="fa-brands fa-twitter"></i> Share</button>
+                            <button class="share-btn" onclick="shareRoadmap('linkedin')"><i class="fa-brands fa-linkedin"></i> Share</button>
+                            <button class="share-btn" onclick="exportRoadmap()"><i class="fa-solid fa-download"></i> Export</button>
+                        </div>
+                    </div>
+                    <div id="roadmap-content" class="roadmap-grid"></div>
+                </section>
+
+                <section id="progress" class="view hidden">
+                    <div class="view-header">
+                        <h2>Your Progress Dashboard</h2>
+                    </div>
+                    <div class="bento-grid">
+                        <div class="card">
+                            <h3>Overall Stats</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-number" id="total-xp">0</span>
+                                    <span class="stat-label">Total XP</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" id="current-level">1</span>
+                                    <span class="stat-label">Current Level</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" id="completed-tasks">0</span>
+                                    <span class="stat-label">Tasks Completed</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" id="time-spent">0h</span>
+                                    <span class="stat-label">Time Invested</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Path Progress</h3>
+                            <div id="path-progress"></div>
+                        </div>
+                        <div class="card">
+                            <h3>Achievements</h3>
+                            <div id="achievements-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="nexus" class="view hidden">
+                    <div class="view-header">
+                        <h2>Global Nexus</h2>
+                    </div>
+                    <div id="nexus-grid" class="nexus-layout"></div>
+                </section>
+            </main>
+        </div>
+
+        <footer class="glass-footer">
+            <div class="footer-inner">
+                <p>&copy; 2026 PathFinder AI | Designed By <a href="https://github.com/WanadeBotman" target="_blank">Sharkcxode</a></p>
+                <div class="socials">
+                    <a href="https://github.com/WanadeBotman" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/wanade-botman-5524b4308/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://instagram.com/sharkcxode_/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
